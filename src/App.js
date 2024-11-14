@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import About from './pages/About';
-import AuthModal from './components/AuthModal';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
+import Home from './pages/Home/Home';
+import Shop from './pages/Shop/Shop';
+import About from './pages/About/About';
+import AuthModal from './components/AuthModal/AuthModal';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -27,13 +27,27 @@ function App() {
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
+      primary: {
+        main: '#0A1929',  // Dark blue as primary
+      },
+      background: {
+        default: darkMode ? '#0A1929' : '#ffffff',
+      },
+    },
+    typography: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     },
   });
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Navbar onSignIn={() => handleOpenModal('signin')} onSignUp={() => handleOpenModal('signup')} toggleTheme={handleToggleTheme} darkMode={darkMode} />
+        <Navbar 
+          onSignIn={() => handleOpenModal('signin')} 
+          onSignUp={() => handleOpenModal('signup')} 
+          toggleTheme={handleToggleTheme} 
+          darkMode={darkMode} 
+        />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
