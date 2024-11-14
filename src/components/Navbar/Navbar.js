@@ -1,40 +1,22 @@
-import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, IconButton, Button, Box, Switch } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ onSignIn, onSignUp }) => {
+const Navbar = ({ onSignIn, onSignUp, toggleTheme, darkMode }) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar>
-          {/* Optional: Menu Icon */}
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
+          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
-          
-          {/* Logo */}
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <img src="/logo.png" alt="NorthMarketX Logo" height="40" />
-          </Link>
-          
-          {/* Spacer */}
+          <Button component={Link} to="/" color="inherit">Home</Button>
+          <Button component={Link} to="/shop" color="inherit">Shop</Button>
           <Box sx={{ flexGrow: 1 }} />
-
-          {/* Buttons */}
-          <Button color="inherit" onClick={onSignIn}>Sign In</Button>
-          <Button color="inherit" onClick={onSignUp}>Sign Up</Button>
+          <Switch checked={darkMode} onChange={toggleTheme} color="default" />
+          <Button onClick={onSignIn} color="inherit">Sign In</Button>
+          <Button onClick={onSignUp} color="inherit">Sign Up</Button>
         </Toolbar>
       </AppBar>
     </Box>

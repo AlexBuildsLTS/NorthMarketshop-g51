@@ -1,37 +1,50 @@
 import React, { useState } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Shop from './pages/Shop';
+import About from './pages/About';
+import AuthModal from './components/AuthModal';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
-import SignIn from './components/SignIn/SignIn';
-import SignUp from './components/SignUp/SignUp';
-import Dashboard from './components/Dashboard/Dashboard';
-import Home from './components/Home/Home'; // We'll create this next
-import { Container } from '@mui/material';
 
 function App() {
-  const [signInOpen, setSignInOpen] = useState(false);
-  const [signUpOpen, setSignUpOpen] = useState(false);
+  const [authMode, setAuthMode] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+
+  const handleOpenModal = (mode) => {
+    setAuthMode(mode);
+  };
+
+  const handleCloseModal = () => {
+    setAuthMode(null);
+  };
+
+  const handleToggleTheme = () => {
+    setDarkMode((prevMode) => !prevMode);
+  };
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+    },
+  });
 
   return (
-    <Router>
-      {/* Navbar with handlers for Sign In and Sign Up */}
-      <Navbar 
-        onSignIn={() => setSignInOpen(true)} 
-        onSignUp={() => setSignUpOpen(true)} 
-      />
-
-      {/* Main Content */}
-      <Container>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          {/* Add more routes as needed */}
-        </Routes>
-      </Container>
-
-      {/* Sign In and Sign Up Dialogs */}
-      <SignIn open={signInOpen} handleClose={() => setSignInOpen(false)} />
-      <SignUp open={signUpOpen} handleClose={() => setSignUpOpen(false)} />
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Navbar onSignIn={() => handleOpenModal('signin')} onSignUp={() => handleOpenModal('signup')} toggleTheme={handleToggleTheme} darkMode={darkMode} />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
+        <AuthModal open={Boolean(authMode)} handleClose={handleCloseModal} mode={authMode} />
+        <Footer />
+      </Router>
+    </ThemeProvider>
   );
 }
 
