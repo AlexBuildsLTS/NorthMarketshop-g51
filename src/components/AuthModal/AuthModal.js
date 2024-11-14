@@ -1,38 +1,22 @@
+// src/components/AuthModal/AuthModal.js
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, TextField, Button } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Button, TextField, Box } from '@mui/material';
 
 const AuthModal = ({ open, handleClose, mode }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{mode === 'signin' ? 'Sign In' : 'Sign Up'}</DialogTitle>
       <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="outlined"
-        />
-        <TextField
-          margin="dense"
-          label="Password"
-          type="password"
-          fullWidth
-          variant="outlined"
-        />
-        {mode === 'signup' && (
-          <TextField
-            margin="dense"
-            label="Confirm Password"
-            type="password"
-            fullWidth
-            variant="outlined"
-          />
-        )}
-        <Button onClick={handleClose} color="primary" variant="contained">
-          {mode === 'signin' ? 'Sign In' : 'Sign Up'}
-        </Button>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField label="Email" type="email" fullWidth />
+          <TextField label="Password" type="password" fullWidth />
+          {mode === 'signup' && (
+            <TextField label="Confirm Password" type="password" fullWidth />
+          )}
+          <Button variant="contained" color="primary" onClick={handleClose}>
+            {mode === 'signin' ? 'Sign In' : 'Sign Up'}
+          </Button>
+        </Box>
       </DialogContent>
     </Dialog>
   );
